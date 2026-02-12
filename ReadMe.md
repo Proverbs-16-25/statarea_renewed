@@ -1,10 +1,10 @@
-Football Edge Research Platform
-Overview
+**Football Edge Research Platform**
+*Overview*
 
 This project is a modular football analytics platform designed to systematically build, test, and validate betting edges using controlled data collection and transparent feature engineering.
 It emphasizes temporal correctness, reproducibility, and flexibility across multiple data sources, ensuring that predictive signals are based on accurate and auditable data.
 
-Philosophy
+*Philosophy*
 
 No post-match leakage – all statistics are derived without seeing future outcomes.
 
@@ -14,7 +14,7 @@ Flexible feature engineering – easily extendable to incorporate new metrics, t
 
 Transparent validation – supports backtesting and edge evaluation before deploying predictive strategies.
 
-Components
+*Components*
 1. Scrapers
 
 Extract match predictions, fixtures, and statistics from multiple sources (e.g., Statarea).
@@ -57,7 +57,8 @@ Modeling / Signal generation: ⏳
 
 Evaluation dashboard: ⏳
 
-Roadmap
+
+*Roadmap*
 
 Add additional data sources for more comprehensive coverage.
 
@@ -69,7 +70,8 @@ Build interactive dashboards to monitor scraping, accumulation, and signal perfo
 
 Automate daily scraping, accumulation, and feature updates.
 
-Getting Started
+
+*Getting Started*
 
 Clone the repository:
 
