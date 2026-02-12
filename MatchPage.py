@@ -329,5 +329,6 @@ if __name__ == '__main__':
 	#input("continue")
 	#pprint(teams_bet_stats)
 
-	all = mp.parse_all()
-	pprint(all)
+	#all = mp.parse_all()
+	#pprint(all)
+
