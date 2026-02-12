@@ -1,137 +1,95 @@
-# Statarea Research Suite
+Football Edge Research Platform
+Overview
 
-A modular football (soccer) data research framework focused on **data integrity**, **temporal correctness**, and **long-horizon modeling**.
+This project is a modular football analytics platform designed to systematically build, test, and validate betting edges using controlled data collection and transparent feature engineering.
+It emphasizes temporal correctness, reproducibility, and flexibility across multiple data sources, ensuring that predictive signals are based on accurate and auditable data.
 
-This project exists to solve a single hard problem:
+Philosophy
 
-> **How do you build predictive systems when the data source itself quietly leaks the future?**
+No post-match leakage – all statistics are derived without seeing future outcomes.
 
-Rather than relying on opaque datasets or monolithic scrapers, this suite is built from small, explicit tools that give full control over:
-- What data is scraped
-- When it is scraped
-- How it is stored
-- And what information is allowed to exist at any point in time
+Traceable inputs – every statistic, match, and feature is linked back to raw scraped data.
 
----
+Flexible feature engineering – easily extendable to incorporate new metrics, teams, leagues, and sources.
 
-## 🧠 Philosophy
+Transparent validation – supports backtesting and edge evaluation before deploying predictive strategies.
 
-Most football datasets look clean — until you inspect *when* the data was available.
+Components
+1. Scrapers
 
-Statistics like:
-- last 10 matches
-- stat facts
-- team trends
-- head-to-head
+Extract match predictions, fixtures, and statistics from multiple sources (e.g., Statarea).
 
-often include the **match that was just played**.
+Handles retries, timeouts, and failed link tracking.
 
-If those stats are used to predict that same match (or matches before it), the model is cheating — even if unintentionally.
+2. Accumulators
 
-This project is built around **temporal discipline**:
-- No future data in past rows
-- No silent re-writes
-- No convenience shortcuts
+Maintain time-aware datasets separating future fixtures from historical updates.
 
-If a feature exists, it existed *at that time*.
+Includes StatareaAccumulator (formerly StatareaCompounder) to deep-scrape upcoming matches and shallow-scrape prior matches for score updates.
 
----
+3. Databases
 
-## 🧱 Project Components
+Stores raw and derived data for auditability.
 
-### 1. **StatareaAccumulater**
-A controlled data compounding engine.
+Enforces integrity with unique constraints and temporal separation between datasets.
 
-- Deep-scrapes **future matches** with full statistical context
-- Shallow-updates **past matches** for score completion only
-- Prevents statistical self-injection
-- Enforces strict database integrity
+4. Feature Generation & Modeling
 
-This is the backbone of dataset creation.
+Builds rolling statistics, last-10 form, head-to-head records, and team bet stats.
 
----
+Enables downstream ML pipelines or heuristic signal generation.
 
-### 2. **Scrapers**
-Low-level, explicit scrapers for:
-- Match listings
-- Predictions
-- Match details
-- Team and league context
+5. Dashboard (planned)
 
-No giant files.  
-No “magic” parsers.  
-Every field is accounted for.
+Color-coded calendar to visualize update status and failed scrapes.
 
----
+Quick follow-up for incomplete data and automatic daily update logic.
 
-### 3. **Database Layer**
-SQLite-based, normalized storage with:
-- Hard uniqueness constraints
-- Referential integrity
-- JSON-encoded complex structures
-- Explicit update paths (no silent overwrites)
+Current Status
 
-Designed for:
-- ML training
-- Feature engineering
-- Post-hoc analysis
+Data ingestion: ✔
 
----
+Accumulators: ✔
 
-### 4. **(Planned) Signal Generators**
-Future modules will sit *on top* of the accumulated data:
-- Rule-based signals
-- Statistical edges
-- ML inference layers
+Feature derivation: ⏳
 
-These will **never** scrape data themselves — they consume only validated, time-correct datasets.
+Modeling / Signal generation: ⏳
 
----
+Evaluation dashboard: ⏳
 
-## 🧪 Intended Use
+Roadmap
 
-- Machine learning research
-- Betting model development
-- Dataset auditing
-- Feature leakage detection
-- Long-term compounding experiments
+Add additional data sources for more comprehensive coverage.
 
-This is not a prediction bot.  
-It is a **truth-preserving data factory**.
+Expand derived feature tables with advanced statistical metrics.
 
----
+Implement predictive signals and ML pipelines.
 
-## ⚠️ Why This Exists
+Build interactive dashboards to monitor scraping, accumulation, and signal performance.
 
-Many systems fail silently.
+Automate daily scraping, accumulation, and feature updates.
 
-They look profitable.
-They backtest beautifully.
-They collapse in the real world.
+Getting Started
 
-This project was built to answer the uncomfortable question:
+Clone the repository:
 
-> *“What if the data itself is lying to me?”*
+git clone <repo-url>
+cd football-edge-platform
 
----
 
-## 🚧 Status
+Install dependencies:
 
-- Core scraping: stable
-- Accumulation logic: stable
-- Data integrity: verified
-- Dashboards / monitoring: planned
-- Betting edge layer: upcoming
+pip install -r requirements.txt
 
----
 
-## 🧑‍💻 Final Note
+Run scrapers:
 
-This project favors:
-- correctness over speed
-- clarity over cleverness
-- control over convenience
+python scraper.py
 
-It took longer than expected.
 
-It was worth it.
+Use the accumulator to gather future matches and update historical scores:
+
+from StatareaAccumulator import StatareaAccumulator
+
+acc = StatareaAccumulator(future_days=5, update_scores_days=3)
+acc.accumulate_daily()
