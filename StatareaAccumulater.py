@@ -54,23 +54,23 @@ class StatareaAccumulater:
 		1. Update scores for previous day(s)
 		2. Scrape future matches for next day(s)
 		"""
-		print("=== Daily Compounding Started ===")
+		print("=== Daily Compounding Started ===\n\n")
 		
 		# 1️⃣ Update scores for past matches
 		try:
-			print("Step 1: Updating past scores...")
+			print("Step 1: Updating past scores...\n")
 			self.update_scores()
 		except Exception as e:
 			print(f"[Compound Daily] Error updating past scores: {e}")
 
 		# 2️⃣ Gather future matches
 		try:
-			print("Step 2: Gathering future matches...")
+			print("Step 2: Gathering future matches...\n")
 			self.gather_future_matches()
 		except Exception as e:
 			print(f"[Compound Daily] Error gathering future matches: {e}")
 
-		print("=== Daily Compounding Finished ===")
+		print("\n\n=== Daily Compounding Finished ===")
 	# ---------------- CLOSE ----------------
 	def close(self):
 		"""
