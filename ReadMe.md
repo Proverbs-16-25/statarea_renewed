@@ -1,83 +1,112 @@
 # ⚽ Football Edge Research Platform
 
-A modular football analytics system designed to systematically build, test, and validate betting edges using controlled data collection and transparent feature engineering.
+A modular football data pipeline designed to collect, accumulate, and validate match data with strict temporal integrity — built for structured analytics and edge research.
+
+---
+
+## 📌 Overview
+
+This project automates the daily collection and update of football match data while preserving time-awareness and reproducibility.
+
+It is structured as a scalable research framework — not a one-off scraping script.
+
+Key focus areas:
+
+- Controlled data ingestion
+- Separation of future fixtures and historical results
+- Traceable feature engineering
+- Modular, extensible architecture
 
 ---
 
 ## 🎯 Core Principles
 
 - **No post-match leakage**  
-  All statistics are derived without seeing future outcomes.
+  Statistics are generated without using future outcomes.
 
 - **Traceable inputs**  
-  Every statistic, match, and feature is linked back to raw scraped data.
+  Every feature and record links back to raw scraped data.
 
-- **Flexible feature engineering**  
-  Easily extendable to incorporate new metrics, teams, leagues, and sources.
+- **Temporal correctness**  
+  Future fixtures and completed matches are stored and updated separately.
 
-- **Transparent validation**  
-  Supports backtesting and edge evaluation before deploying predictive strategies.
+- **Extensibility**  
+  New leagues, metrics, and data sources can be added without rewriting the system.
 
 ---
 
 ## 🧱 System Architecture
 
-The platform is built around modular components:
+The platform is built around modular components working under a central orchestration layer.
 
-### 1️⃣ Scrapers
-- Extract match predictions, fixtures, and statistics from multiple sources (e.g., Statarea).
-- Handles retries, timeouts, and failed link tracking.
-- Designed for robustness and long-term automation.
+## 📐 Architecture Overview
 
-### 2️⃣ Accumulators
-- Maintain time-aware datasets separating:
-  - Future fixtures
-  - Historical score updates
-- Includes `StatareaAccumulator` (formerly `StatareaCompounder`)
-  - Deep-scrapes upcoming matches
-  - Shallow-scrapes prior matches for score updates
-  - Preserves temporal correctness
+The diagram below illustrates how the `StatareaAccumulator` orchestrates daily scraping, future match tracking, and historical score updates.
 
-### 3️⃣ Databases
-- Stores raw and derived data for auditability.
-- Enforces integrity using:
-  - Unique constraints
-  - Temporal separation
-  - Controlled update logic
+![StatareaAccumulator Flowchart](StatareaAccumulator_FlowChart.drawio.png)
 
-### 4️⃣ Feature Generation & Modeling
-- Rolling statistics
-- Last-10 match form
-- Head-to-head records
-- Team betting statistics
-- Designed for ML pipelines or heuristic signal generation.
+At a high level, the system:
 
-### 5️⃣ Dashboard (Planned)
-- Color-coded update calendar
-- Failed scrape monitoring
-- Automated daily update tracking
+1. Collects upcoming fixtures (deep scrape)
+2. Updates recently completed matches (shallow scrape)
+3. Preserves historical integrity
+4. Stores validated data for downstream feature generation
 
 ---
 
-## 📊 Current Status
+## 🧩 Core Components
+
+### 1️⃣ Scrapers
+- Extract fixtures, predictions, and match statistics
+- Handle retries, timeouts, and failed link tracking
+- Designed for automation and reliability
+
+### 2️⃣ Accumulators
+- Maintain time-aware datasets
+- Separate:
+  - Future fixtures
+  - Historical score updates
+- Includes `StatareaAccumulator` (formerly `StatareaCompounder`)
+- Central orchestration logic for daily updates
+
+### 3️⃣ Database Layer
+- Stores raw and derived data
+- Enforces unique constraints
+- Maintains auditability and integrity
+
+### 4️⃣ Feature Engineering
+- Rolling statistics
+- Last-N match form
+- Head-to-head records
+- Team betting statistics
+- Structured for ML pipelines or rule-based signal systems
+
+### 5️⃣ Dashboard (Planned)
+- Update status visualization
+- Failed scrape monitoring
+- Automated daily health checks
+
+---
+
+## 📊 Project Status
 
 | Component | Status |
-|-----------|--------|
+|------------|--------|
 | Data Ingestion | ✅ Complete |
-| Accumulators | ✅ Complete |
+| Accumulator Logic | ✅ Complete |
 | Feature Derivation | ⏳ In Progress |
-| Modeling / Signals | ⏳ Planned |
-| Evaluation Dashboard | ⏳ Planned |
+| Predictive Modeling | ⏳ Planned |
+| Monitoring Dashboard | ⏳ Planned |
 
 ---
 
 ## 🗺 Roadmap
 
 - Add additional data sources
-- Expand derived feature tables
-- Implement predictive signals / ML models
-- Build interactive dashboards
-- Automate full daily pipeline (scrape → accumulate → features)
+- Expand derived statistical features
+- Integrate predictive models / signal evaluation
+- Automate full daily pipeline execution
+- Deploy scheduled cloud-based execution
 
 ---
 
@@ -90,22 +119,14 @@ git clone <repo-url>
 cd football-edge-platform
 Install dependencies
 pip install -r requirements.txt
-Run scrapers
+Run scraper
 python scraper.py
-Use the Accumulator
+Run daily accumulator
 from StatareaAccumulator import StatareaAccumulator
 
 acc = StatareaAccumulator(future_days=5, update_scores_days=3)
 acc.accumulate_daily()
-🧠 Design Philosophy
-This platform prioritizes:
+🧠 Design Intent
+This project prioritizes clarity, reproducibility, and structured data accumulation.
 
-Reproducibility
-
-Temporal integrity
-
-Modular extensibility
-
-Transparent evaluation
-
-It is structured as a long-term research framework rather than a one-off scraping script.
+It is built to support long-term analytics, controlled experimentation, and scalable feature research — while remaining modular and production-ready.
