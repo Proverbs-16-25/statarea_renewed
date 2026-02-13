@@ -47,8 +47,8 @@ The diagram below illustrates how the `StatareaAccumulator` orchestrates daily s
 
 At a high level, the system:
 
-1. Collects upcoming fixtures (deep scrape)
-2. Updates recently completed matches (shallow scrape)
+1. Updates recently completed matches (shallow scrape)
+2. Collects upcoming fixtures (deep scrape)
 3. Preserves historical integrity
 4. Stores validated data for downstream feature generation
 
@@ -119,13 +119,14 @@ git clone <repo-url>
 cd football-edge-platform
 Install dependencies
 pip install -r requirements.txt
-Run scraper
-python scraper.py
-Run daily accumulator
+```
+```python
+#Run daily accumulator
 from StatareaAccumulator import StatareaAccumulator
 
 acc = StatareaAccumulator(future_days=5, update_scores_days=3)
 acc.accumulate_daily()
+```
 🧠 Design Intent
 This project prioritizes clarity, reproducibility, and structured data accumulation.
 
