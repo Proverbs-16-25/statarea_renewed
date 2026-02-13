@@ -4,8 +4,8 @@ from PredictionsPage import *
 from scraper import *
 from DatabaseManager import DatabaseManager  
 
-class StatareaAccumulater:
-	def __init__(self, future_days=5, update_scores_days=3, db_path="statarea_ml_accumulater.db"):
+class StatareaAccumulator:
+	def __init__(self, future_days=5, update_scores_days=3, db_path="statarea_ml_accumulator.db"):
 		self.scraper = StatareaScraper()  
 		self.db = DatabaseManager(db_path=db_path)
 		self.future_days = future_days
@@ -50,27 +50,27 @@ class StatareaAccumulater:
 	
 	def accumulate_daily(self):
 		"""
-		One-click daily compound:
+		One-click daily Accumulation:
 		1. Update scores for previous day(s)
 		2. Scrape future matches for next day(s)
 		"""
-		print("=== Daily Compounding Started ===\n\n")
+		print("=== Daily Accumulation Started ===\n\n")
 		
 		# 1️⃣ Update scores for past matches
 		try:
 			print("Step 1: Updating past scores...\n")
 			self.update_scores()
 		except Exception as e:
-			print(f"[Compound Daily] Error updating past scores: {e}")
+			print(f"[Accumulate Daily] Error updating past scores: {e}")
 
 		# 2️⃣ Gather future matches
 		try:
 			print("Step 2: Gathering future matches...\n")
 			self.gather_future_matches()
 		except Exception as e:
-			print(f"[Compound Daily] Error gathering future matches: {e}")
+			print(f"[Accumulate Daily] Error gathering future matches: {e}")
 
-		print("\n\n=== Daily Compounding Finished ===")
+		print("\n\n=== Daily Accumulating Finished ===")
 	# ---------------- CLOSE ----------------
 	def close(self):
 		"""
@@ -79,7 +79,7 @@ class StatareaAccumulater:
 		self.db.close()
 
 if __name__ == "__main__":
-	StatareaAccumulater().accumulate_daily()
+	StatareaAccumulator().accumulate_daily()
 	
 
 
