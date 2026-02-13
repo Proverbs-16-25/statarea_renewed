@@ -43,7 +43,7 @@ The platform is built around modular components working under a central orchestr
 
 The diagram below illustrates how the `StatareaAccumulator` orchestrates daily scraping, future match tracking, and historical score updates.
 
-![StatareaAccumulator Flowchart](StatareaAccumulator_FlowChart.drawio.png)
+![StatareaAccumulator Flowchart](StatareaAccumulater_FlowChart.drawio.png)
 
 At a high level, the system:
 
