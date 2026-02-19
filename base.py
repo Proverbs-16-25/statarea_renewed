@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import time
 import random
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor 
 from concurrent.futures import as_completed
 from itertools import zip_longest
@@ -50,6 +50,33 @@ def clean_url(url: str):
         return None
     return quote(url, safe='/:()')
 
+def db_row_to_match_dict(row):
+    """
+    Converts a raw_matches row tuple into the dict format
+    expected by StatareaSimplifier.simp_whole_match_row
+    """
+    match_dict = {}
+
+    # Simple scalar fields
+    match_dict['date'] = row['date']  # might need conversion later
+    match_dict['home_team_id'] = row['home_team_id']
+    match_dict['away_team_id'] = row['away_team_id']
+    match_dict['league_id'] = row['league_id']
+    match_dict['home_ht_goals'] = row['home_ht_goals']
+    match_dict['away_ht_goals'] = row['away_ht_goals']
+    match_dict['home_ft_goals'] = row['home_ft_goals']
+    match_dict['away_ft_goals'] = row['away_ft_goals']
+
+    # JSON/dict fields
+    for field in ['home_next_match', 'away_next_match', 'h2h', 'last10',
+                  'stat_facts', 'standings', 'team_bet_stats']:
+        raw_val = row[field]
+        if raw_val is None:
+            match_dict[field] = {}
+        else:
+            match_dict[field] = json.loads(raw_val)
+
+    return match_dict
 def extract_date_from_link(link):
     # example link: /predictions/date/2026-01-31/competition
     parts = urlparse(link).path.split("/")

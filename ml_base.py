@@ -107,7 +107,7 @@ def remap_labels(y):
 # DATA LOADING
 # =========================
 
-def load_dataset(db_path="statarea_lean.db"):
+def load_dataset(db_path="statarea_ml_accumulator.db"):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
@@ -190,3 +190,27 @@ def sanity_check(X, y, n=5):
         print("X:", X[i])
         print("Label:", y[i])
         print("-" * 50)
+
+if __name__ == "__main__":
+    # Load dataset
+    X, y_ht, y_ft = load_dataset()
+    print("Dataset loaded")
+    print("Number of samples:", X.shape[0])
+    print("Feature vector length:", X.shape[1])
+    print("Example feature vector:", X[0])
+    print("Example HT label:", y_ht[0], "Example FT label:", y_ft[0])
+    print("-" * 50)
+
+    # Sanity check
+    print("Sanity check for HT labels:")
+    sanity_check(X, y_ht, n=5)
+    print("Sanity check for FT labels:")
+    sanity_check(X, y_ft, n=5)
+
+    # Train models for HT
+    print("\nTraining models for Half-Time result:")
+    models_ht, results_ht = train_models(X, y_ht)
+
+    # Train models for FT
+    print("\nTraining models for Full-Time result:")
+    models_ft, results_ft = train_models(X, y_ft)
